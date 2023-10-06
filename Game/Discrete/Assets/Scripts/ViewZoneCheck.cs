@@ -93,15 +93,15 @@ public class ViewZoneCheck : MonoBehaviour
             else
             {
                 //Debug.Log("RAYCAST HIT PLAYERBODY - WOOOOOOOOOOOOOOOOOO!");
-                if (lightChecker.gameObject.GetComponent<FPSLightCheck>().isVisible == true)
-                {
-                    inLOS = true;
-                }
-                else
-                {
-                    inLOS = false;
-                }
-                
+                /* if (lightChecker.gameObject.GetComponent<FPSLightCheck>().isVisible == true)
+                 {
+                     inLOS = true;
+                 }
+                 else
+                 {
+                     inLOS = false;
+                 }*/
+                inLOS = true;
             }
         }
         else
