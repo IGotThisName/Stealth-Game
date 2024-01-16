@@ -68,6 +68,8 @@ public class FPSMovement : MonoBehaviour
         RunCheck(); // Checks the input for run
         JumpCheck(); // Checks if we can jump
 
+
+
         if (Input.GetKeyDown(m_crouch))
         {
             if (crouching)

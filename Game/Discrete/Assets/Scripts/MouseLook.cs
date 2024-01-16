@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UIElements;
 
 
 
@@ -10,6 +11,9 @@ public class MouseLook : MonoBehaviour
     public Transform m_playerObject; // Sotre the player controller
     public Transform m_camera;
 
+    public KeyCode leftPeek;
+    public KeyCode rightPeek;
+
     private Vector2 m_mousePos; // Store mouse position
     private float m_xRotation = 0f; // Final loop up rotation value
 
@@ -17,7 +21,7 @@ public class MouseLook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked; // Lock our cursor to the center of screen
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked; // Lock our cursor to the center of screen
     }
 
     // Update is called once per frame
