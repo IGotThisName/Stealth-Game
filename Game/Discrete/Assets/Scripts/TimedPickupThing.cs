@@ -18,6 +18,10 @@ public class TimedPickupThing : MonoBehaviour
     private bool yoinking;
     private KeyCode useKey;
     private int itemID;
+    private float yoinkRange;
+    private Vector3 playerLoc;
+    private Vector3 itemLoc;
+    private float distanceFromItem;
 
     private float pickupProgress = 0;
     [SerializeField] private float yoinkTime;
@@ -32,12 +36,23 @@ public class TimedPickupThing : MonoBehaviour
         useKey = basicInteract.interactOrPickUpKey;
 
         progressBar.gameObject.SetActive(false);
+        yoinkRange = basicInteract.rayLength;
     }
 
     private void Update()
     {
         if (yoinking)
         {
+            playerLoc = player.transform.position;
+            itemLoc = transform.position;
+
+            if (Vector3.Distance(playerLoc, itemLoc) > yoinkRange)
+            {
+                yoinking = false;
+                ResetProgress();
+                return;
+            }
+
             progressBar.gameObject.SetActive(true);
 
             pickupProgress += (1 / yoinkTime) * Time.deltaTime;
