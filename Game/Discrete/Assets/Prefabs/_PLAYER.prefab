@@ -140,6 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_leftPeek: 113
   m_rightPeek: 101
+  player: {fileID: 3387978276766116241}
 --- !u!1 &3387978275262421155
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,8 +526,6 @@ MonoBehaviour:
   m_sprint: 304
   m_jump: 32
   m_crouch: 99
-  m_leftPeek: 0
-  m_rightPeek: 0
   crouching: 0
   m_camera: {fileID: 3387978275262421155}
   m_cameraStandPoint: {fileID: 1395490512346303194}

@@ -8,7 +8,6 @@ public class Peeking : MonoBehaviour
     public KeyCode m_rightPeek;
 
     public GameObject player;
-    public GameObject camera;
 
     // Start is called before the first frame update
     void Start()
@@ -19,32 +18,27 @@ public class Peeking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        LeftPeek();
+        LeftPeek(getTransform());
+        RightPeek(getTransform());
+    }
+
+    Transform getTransform()
+    {
+        return transform;
     }
 
     private bool rotated = false;
-    private Vector3 axis;
 
     // Left Peek
-    void LeftPeek()
+    void LeftPeek(Transform transform)
     {
         if (Input.GetKeyDown(m_leftPeek) && rotated == false)
         {
-            Vector3 rotatePoint = transform.position;
-            rotatePoint.y -= 1;
-
-            //axis = new Vector3(player.transform.rotation.x, player.transform.rotation.y, player.transform.rotation.z);
-
-            axis = Vector3.forward;
-
-            Debug.Log(axis.ToString());
-
-            transform.RotateAround(rotatePoint, axis, 15);
+            transform.Rotate(0, 0, 20);
             rotated = true;
         }
         else if (Input.GetKeyUp(m_leftPeek))
         {
-            Debug.Log("unpeeked");
             transform.position = player.transform.position;
             transform.rotation = player.transform.rotation;
             rotated = false;
@@ -52,4 +46,19 @@ public class Peeking : MonoBehaviour
     }
 
     // Right Peek
+
+    void RightPeek(Transform transform)
+    {
+        if (Input.GetKeyDown(m_rightPeek) && rotated == false)
+        {
+            transform.Rotate(0, 0, -20);
+            rotated = true;
+        }
+        else if (Input.GetKeyUp(m_rightPeek))
+        {
+            transform.position = player.transform.position;
+            transform.rotation = player.transform.rotation;
+            rotated = false;
+        }
+    }
 }

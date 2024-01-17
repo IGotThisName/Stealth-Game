@@ -79,14 +79,12 @@ public class TimedPickupThing : MonoBehaviour
 
     public void TimedCollectionEvent(int ID)
     {
-        Debug.Log("timed collection");
         yoinking = true;
         itemID = ID;
     }
 
     private void YoinkSuccess()
     {
-        Debug.Log("get yoinked kid");
 
         ResetProgress();
 
