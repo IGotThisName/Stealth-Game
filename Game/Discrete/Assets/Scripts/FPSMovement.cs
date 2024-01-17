@@ -47,7 +47,7 @@ public class FPSMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_isGrounded = HitGroundCheck(); // CHecks touching the ground every frame
+        m_isGrounded = HitGroundCheck(); // Checks touching the ground every frame
         MoveInputCheck();
     }
 
@@ -67,6 +67,8 @@ public class FPSMovement : MonoBehaviour
         MovePlayer(move); // Run the MovePlayer function with the vector3 value move
         RunCheck(); // Checks the input for run
         JumpCheck(); // Checks if we can jump
+
+
 
         if (Input.GetKeyDown(m_crouch))
         {

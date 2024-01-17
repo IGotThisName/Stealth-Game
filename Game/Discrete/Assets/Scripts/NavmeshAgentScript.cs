@@ -123,11 +123,11 @@ public class NavmeshAgentScript : MonoBehaviour
         {
             agent.speed = chaseSpeed;
             seenDist = Vector3.Distance(lastSeenAt, guardPosition);
-            if (seenDist > 0.5)
+            if (seenDist > 1.3)
             {
                 agent.SetDestination(lastSeenAt);
             }
-            else if (seenDist <= 0.5)
+            else if (seenDist <= 1.3)
             {
                 Invoke("DelayedSwitch", delay);
                 seenDist = 100;

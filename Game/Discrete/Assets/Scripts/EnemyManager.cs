@@ -7,6 +7,8 @@ public class EnemyManager : MonoBehaviour
     public List<GameObject> enemyList = new List<GameObject>();
     private NavmeshAgentScript enemyNMA;
 
+    public bool alertAll;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,10 +41,32 @@ public class EnemyManager : MonoBehaviour
         {
             // THIS WOULD BE ABOUT PUTTING ENEMIES INTO A NEW AI STATE (6) - WHERE THEY HEAD TO A LOCATION GIVEN TO THEM BY SOMETHING.
 
+            NavmeshAgentScript enemyNMA = e.GetComponent<NavmeshAgentScript>();
+            
+            enemyNMA.lastSeenAt = enemyNMA.player.transform.position;
+
+            enemyNMA.AIState = 2;
+        }
+    }
+
+    public void ResetAll()
+    {
+        foreach (GameObject e in enemyList)
+        {
+            // THIS WOULD BE ABOUT PUTTING ENEMIES INTO A NEW AI STATE (6) - WHERE THEY HEAD TO A LOCATION GIVEN TO THEM BY SOMETHING.
+
+            NavmeshAgentScript enemyNMA = e.GetComponent<NavmeshAgentScript>();
+            
+            enemyNMA.ResetJobState();
         }
     }
 
 
     // IF ENEMIES ARE REMOVED FROM THE GAME, A FUNCTION TO ADD/REMOVE ENEMIES FROM THE LIST MUST BE MADE
-        
+    /* void Update() {
+
+        if (alertAll == true) {
+            AllEnemyAlert();
+        }
+    } */
 }

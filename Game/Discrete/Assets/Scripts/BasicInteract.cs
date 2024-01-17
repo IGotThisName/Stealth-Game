@@ -170,7 +170,7 @@ public class BasicInteract : MonoBehaviour
 
         if (canInteract == true)
         {
-            if (Input.GetKeyUp(interactOrPickUpKey) && (interactiveObject != null))
+            if (Input.GetKeyDown(interactOrPickUpKey) && (interactiveObject != null))
             {
                 if (targetIsCarryable)
                 {
@@ -180,18 +180,45 @@ public class BasicInteract : MonoBehaviour
                 {
                     if (useInventory)
                     {
-                        onInvItemTaken?.Invoke(interactiveObject.GetComponent<InvItemID>().ID); // ADD TO INVENTORY LIST
-                        interactiveObject.GetComponent<PickupThing>().CollectionEvent();
+
+                        // if normal pickup
+                        if (interactiveObject.GetComponent<PickupThing>() != null)
+                        {
+                            addItemtoInv(interactiveObject.GetComponent<InvItemID>().ID);
+                            interactiveObject.GetComponent<PickupThing>().CollectionEvent();
+                            Destroy(interactiveObject); // REMOVE OBJECT FROM THE WORLD
+                        }
+
+                        // if timed pickup
+                        else if (interactiveObject.GetComponent<TimedPickupThing>() != null)
+                        {
+                            // timed collection?
+
+                            interactiveObject.GetComponent<TimedPickupThing>().TimedCollectionEvent(interactiveObject.GetComponent<InvItemID>().ID);
+
+                        }
                     }
 
-                    Destroy(interactiveObject); // REMOVE OBJECT FROM THE WORLD
+                    //Destroy(interactiveObject); // REMOVE OBJECT FROM THE WORLD
                 }
                 else if (targetIsInteractive)
                 {
-                    interactiveObject.GetComponent<Interactable>().TriggerEvent(); // ACTIVE THE 'TriggerEvent' FUNCTION ON THE OBJECT.
+                    if (interactiveObject.GetComponent<Interactable>() != null) 
+                    {
+                        interactiveObject.GetComponent<Interactable>().TriggerEvent(); // ACTIVE THE 'TriggerEvent' FUNCTION ON THE OBJECT.
+                    }
+                    else if (interactiveObject.GetComponent<InteractableWithKey>() != null)
+                    {
+                        interactiveObject.GetComponent<InteractableWithKey>().TriggerEvent();
+                    }
                 }
             }
         }
+    }
+
+    public void addItemtoInv(int ID)
+    {
+        onInvItemTaken?.Invoke(ID);
     }
 
     // TWO FUNCTIONS FOR CARRYABLE OBJEECTS ONLY
