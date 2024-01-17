@@ -47,7 +47,7 @@ public class FPSMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_isGrounded = HitGroundCheck(); // CHecks touching the ground every frame
+        m_isGrounded = HitGroundCheck(); // Checks touching the ground every frame
         MoveInputCheck();
     }
 

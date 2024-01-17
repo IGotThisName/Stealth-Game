@@ -513,7 +513,7 @@ MonoBehaviour:
   m_movementSpeed: 10
   m_runSpeed: 1.5
   m_gravity: -9.81
-  m_jumpHeight: 3
+  m_jumpHeight: 10
   m_groundCheckPoint: {fileID: 3387978276562324514}
   m_groundDistance: 0.2
   m_groundMask:
