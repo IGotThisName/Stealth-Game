@@ -8,18 +8,12 @@ public class SwapView : MonoBehaviour
 
     public KeyCode swapViewKey;
 
-    private ManageView viewManager;
+    [SerializeField] private ManageView viewManager;
     private int cvAsInt;
     private ManageView.ViewType[] viewTypes;
 
     void Start()
     {
-
-        viewManager = FindObjectOfType<ManageView>();
-
-        viewTypes[0] = ManageView.ViewType.normal;
-        viewTypes[1] = ManageView.ViewType.thermal;
-        viewTypes[2] = ManageView.ViewType.viewzones;
 
         cvAsInt = 0;
 
@@ -37,17 +31,24 @@ public class SwapView : MonoBehaviour
     {
         if (Input.GetKeyDown(swapViewKey))
         {
-            if (cvAsInt < 2)
+            switch(cvAsInt)
             {
-                cvAsInt++;
-            }
-            else
-            {
-                cvAsInt = 0;
+                case 0:
+                    viewManager.currentView = ManageView.ViewType.normal;
+                    cvAsInt++;
+                    break;
+                case 1:
+                    viewManager.currentView = ManageView.ViewType.thermal;
+                    cvAsInt++;
+                    break;
+                case 2:
+                    viewManager.currentView = ManageView.ViewType.viewzones;
+                    cvAsInt = 0;
+                    break;
+
             }
 
-            viewManager.currentView = viewTypes[cvAsInt];
-            viewManager.updateView();
+            viewManager.UpdateView();
         }
     }
 }

@@ -7,14 +7,18 @@ public class ManageView : MonoBehaviour
 {
 
     public enum ViewType { normal, thermal, viewzones }
-
     public ViewType currentView;
+
+    [SerializeField] private Material enemyMat;
+    [SerializeField] private Material enemyViewZone;
+    [SerializeField] private Material detectionZoneOn;
+    [SerializeField] private Material detectionZoneOff;
 
     // Start is called before the first frame update
     void Start()
     {
         currentView = ViewType.normal;
-        updateView();
+        UpdateView();
     }
 
     // Update is called once per frame
@@ -23,14 +27,23 @@ public class ManageView : MonoBehaviour
         
     }
 
-    public void updateView()
+    public void UpdateView()
     {
+
+        ResetMaterials();
+
         switch (currentView)
         {
             case ViewType.normal:
+
+                // do nothing lmao
+
                 break;
 
             case ViewType.thermal:
+
+                enemyMat.shader = Shader.Find("EnemyVision");
+
                 break;
 
             case ViewType.viewzones:
@@ -40,5 +53,13 @@ public class ManageView : MonoBehaviour
                 Debug.LogError("Invalid Input for currentView switch case. Debug immediately!");
                 break;
         }
+    }
+
+    private void ResetMaterials()
+    {
+
+        enemyMat.shader = Shader.Find("Standard");
+
+
     }
 }
