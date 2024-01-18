@@ -69,7 +69,7 @@ public class ManageView : MonoBehaviour
                 lineColor.a = 1f;
                 lineMat.color = lineColor;
 
-                // shader toggle here eventually
+                lineMat.shader = Shader.Find("lineThroughWall");
 
                 break;
 
@@ -97,8 +97,10 @@ public class ManageView : MonoBehaviour
         detectionZoneOff.color = dVZ;
 
         Color lineColor = lineMat.color;
-        lineColor.a = 0;
+        lineColor.a = 0f;
         lineMat.color = lineColor;
+
+        lineMat.shader = Shader.Find("Standard");
 
     }
 }
