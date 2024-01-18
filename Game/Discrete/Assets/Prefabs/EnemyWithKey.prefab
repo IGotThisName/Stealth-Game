@@ -618,9 +618,9 @@ MonoBehaviour:
   isCollectableToInv: 1
   isCarryable: 0
   onThingAcquired: {fileID: 11400000, guid: b9ddb1f7136c97940b4c024e1765f892, type: 2}
-  basicInteract: {fileID: 0}
+  basicInteract: {fileID: 3387978276766116250, guid: bd4cebbd0bc0c72478e7bdb940d9614e, type: 3}
   yoinkTime: 2
-  progressBar: {fileID: 0}
+  progressBar: {fileID: 4930821988428675995, guid: c2f72c2a590c6c44dbdce26991159e65, type: 3}
 --- !u!1 &6136384620915320706
 GameObject:
   m_ObjectHideFlags: 0
