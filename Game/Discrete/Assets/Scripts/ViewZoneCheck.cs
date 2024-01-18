@@ -87,7 +87,7 @@ public class ViewZoneCheck : MonoBehaviour
         {
             if (hitThing.collider.tag != "PlayerBody")
             {
-                //Debug.Log("Raycast hit a thing but NOT PlayerBoody. was " + hitThing.collider.tag);
+                Debug.Log("Raycast hit a thing but NOT PlayerBoody. was " + hitThing.collider.tag);
                 inLOS = false;
             }
             else
