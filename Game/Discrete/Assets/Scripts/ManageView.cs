@@ -6,13 +6,14 @@ using UnityEngine;
 public class ManageView : MonoBehaviour
 {
 
-    public enum ViewType { normal, thermal, viewzones }
+    public enum ViewType { normal, thermal, viewzones, paths }
     public ViewType currentView;
 
     [SerializeField] private Material enemyMat;
     [SerializeField] private Material enemyViewZone;
     [SerializeField] private Material detectionZoneOn;
     [SerializeField] private Material detectionZoneOff;
+    [SerializeField] private Material lineMat;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +48,29 @@ public class ManageView : MonoBehaviour
                 break;
 
             case ViewType.viewzones:
+
+                Color viewZone = enemyViewZone.color;
+                viewZone.a = 0.5f;
+                enemyViewZone.color = viewZone;
+
+                Color eVZ = detectionZoneOn.color;
+                eVZ.a = 0.5f;
+                detectionZoneOn.color = eVZ;
+
+                Color dVZ = detectionZoneOff.color;
+                dVZ.a = 0.5f;
+                detectionZoneOff.color = dVZ;
+
+                break;
+
+            case ViewType.paths:
+
+                Color lineColor = lineMat.color;
+                lineColor.a = 1f;
+                lineMat.color = lineColor;
+
+                // shader toggle here eventually
+
                 break;
 
             default:
@@ -60,6 +84,21 @@ public class ManageView : MonoBehaviour
 
         enemyMat.shader = Shader.Find("Standard");
 
+        Color viewZone = enemyViewZone.color;
+        viewZone.a = 0;
+        enemyViewZone.color = viewZone;
+
+        Color eVZ = detectionZoneOn.color;
+        eVZ.a = 0;
+        detectionZoneOn.color = eVZ;
+
+        Color dVZ = detectionZoneOff.color;
+        dVZ.a = 0;
+        detectionZoneOff.color = dVZ;
+
+        Color lineColor = lineMat.color;
+        lineColor.a = 0;
+        lineMat.color = lineColor;
 
     }
 }

@@ -10,7 +10,6 @@ public class SwapView : MonoBehaviour
 
     [SerializeField] private ManageView viewManager;
     private int cvAsInt;
-    private ManageView.ViewType[] viewTypes;
 
     void Start()
     {
@@ -24,6 +23,7 @@ public class SwapView : MonoBehaviour
      * 0 = normal
      * 1 = thermal
      * 2 = viewzones
+     * 3 = paths
     */
 
     // Update is called once per frame
@@ -43,9 +43,12 @@ public class SwapView : MonoBehaviour
                     break;
                 case 2:
                     viewManager.currentView = ManageView.ViewType.viewzones;
+                    cvAsInt++;
+                    break;
+                case 3:
+                    viewManager.currentView = ManageView.ViewType.paths;
                     cvAsInt = 0;
                     break;
-
             }
 
             viewManager.UpdateView();
