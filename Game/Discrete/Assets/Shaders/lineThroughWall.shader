@@ -154,9 +154,7 @@ Shader "lineThroughWall"
         };
         struct SurfaceDescriptionInputs
         {
-             float3 WorldSpaceNormal;
              float3 TangentSpaceNormal;
-             float3 WorldSpaceViewDirection;
              float3 ViewSpacePosition;
              float3 WorldSpacePosition;
              float4 ScreenPosition;
@@ -314,31 +312,6 @@ Shader "lineThroughWall"
             Out = Predicate ? True : False;
         }
         
-        void Unity_FresnelEffect_float(float3 Normal, float3 ViewDir, float Power, out float Out)
-        {
-            Out = pow((1.0 - saturate(dot(normalize(Normal), normalize(ViewDir)))), Power);
-        }
-        
-        void Unity_Add_float(float A, float B, out float Out)
-        {
-            Out = A + B;
-        }
-        
-        void Unity_Power_float(float A, float B, out float Out)
-        {
-            Out = pow(A, B);
-        }
-        
-        void Unity_Multiply_float4_float4(float4 A, float4 B, out float4 Out)
-        {
-            Out = A * B;
-        }
-        
-        void Unity_Branch_float(float Predicate, float True, float False, out float Out)
-        {
-            Out = Predicate ? True : False;
-        }
-        
         // Custom interpolators pre vertex
         /* WARNING: $splice Could not find named fragment 'CustomInterpolatorPreVertex' */
         
@@ -393,32 +366,18 @@ Shader "lineThroughWall"
             Unity_SceneDepth_Eye_float(float4(IN.ScreenPosition.xy / IN.ScreenPosition.w, 0, 0), _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1);
             float _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2;
             Unity_Comparison_LessOrEqual_float(_Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1, _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1, _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2);
-            float4 Color_66d0ccd319dc4f40b6ab20b1c18aa2d5 = IsGammaSpace() ? float4(0, 0.344873, 1, 0) : float4(SRGBToLinear(float3(0, 0.344873, 1)), 0);
+            float4 Color_66d0ccd319dc4f40b6ab20b1c18aa2d5 = IsGammaSpace() ? float4(0, 0.7933049, 1, 0) : float4(SRGBToLinear(float3(0, 0.7933049, 1)), 0);
             float4 _Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3;
             Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, float4(0, 0, 0, 0), _Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3);
-            float _FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3;
-            Unity_FresnelEffect_float(IN.WorldSpaceNormal, IN.WorldSpaceViewDirection, 1, _FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3);
-            float _Property_f81f91a57e2f42168cd59b77b2979992_Out_0 = _smooth;
-            float _Add_f77ad601777a45ab8da00a2cfb67187a_Out_2;
-            Unity_Add_float(_FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3, _Property_f81f91a57e2f42168cd59b77b2979992_Out_0, _Add_f77ad601777a45ab8da00a2cfb67187a_Out_2);
-            float _Property_b4eaffa56a3948eda490ed0234f764da_Out_0 = _pow;
-            float _Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2;
-            Unity_Power_float(_Add_f77ad601777a45ab8da00a2cfb67187a_Out_2, _Property_b4eaffa56a3948eda490ed0234f764da_Out_0, _Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2);
-            float4 _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2;
-            Unity_Multiply_float4_float4(Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, (_Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2.xxxx), _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2);
             float4 _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3;
-            Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, float4(0, 0, 0, 0), _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2, _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3);
-            float _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3;
-            Unity_FresnelEffect_float(IN.WorldSpaceNormal, IN.WorldSpaceViewDirection, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3);
-            float _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
-            Unity_Branch_float(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3, _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3);
+            Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, float4(0, 0, 0, 0), Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3);
             surface.BaseColor = (_Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3.xyz);
             surface.NormalTS = IN.TangentSpaceNormal;
             surface.Emission = (_Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3.xyz);
             surface.Metallic = 0;
             surface.Smoothness = 0.5;
             surface.Occlusion = 1;
-            surface.Alpha = _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
+            surface.Alpha = 1;
             return surface;
         }
         
@@ -443,16 +402,11 @@ Shader "lineThroughWall"
         
             
         
-            // must use interpolated tangent, bitangent and normal before they are normalized in the pixel shader.
-            float3 unnormalizedNormalWS = input.normalWS;
-            const float renormFactor = 1.0 / length(unnormalizedNormalWS);
         
         
-            output.WorldSpaceNormal = renormFactor * input.normalWS.xyz;      // we want a unit length Normal Vector node in shader graph
             output.TangentSpaceNormal = float3(0.0f, 0.0f, 1.0f);
         
         
-            output.WorldSpaceViewDirection = normalize(input.viewDirectionWS);
             output.WorldSpacePosition = input.positionWS;
             output.ViewSpacePosition = TransformWorldToView(input.positionWS);
             output.ScreenPosition = ComputeScreenPos(TransformWorldToHClip(input.positionWS), _ProjectionParams.x);
@@ -677,9 +631,7 @@ Shader "lineThroughWall"
         };
         struct SurfaceDescriptionInputs
         {
-             float3 WorldSpaceNormal;
              float3 TangentSpaceNormal;
-             float3 WorldSpaceViewDirection;
              float3 ViewSpacePosition;
              float3 WorldSpacePosition;
              float4 ScreenPosition;
@@ -837,31 +789,6 @@ Shader "lineThroughWall"
             Out = Predicate ? True : False;
         }
         
-        void Unity_FresnelEffect_float(float3 Normal, float3 ViewDir, float Power, out float Out)
-        {
-            Out = pow((1.0 - saturate(dot(normalize(Normal), normalize(ViewDir)))), Power);
-        }
-        
-        void Unity_Add_float(float A, float B, out float Out)
-        {
-            Out = A + B;
-        }
-        
-        void Unity_Power_float(float A, float B, out float Out)
-        {
-            Out = pow(A, B);
-        }
-        
-        void Unity_Multiply_float4_float4(float4 A, float4 B, out float4 Out)
-        {
-            Out = A * B;
-        }
-        
-        void Unity_Branch_float(float Predicate, float True, float False, out float Out)
-        {
-            Out = Predicate ? True : False;
-        }
-        
         // Custom interpolators pre vertex
         /* WARNING: $splice Could not find named fragment 'CustomInterpolatorPreVertex' */
         
@@ -916,32 +843,18 @@ Shader "lineThroughWall"
             Unity_SceneDepth_Eye_float(float4(IN.ScreenPosition.xy / IN.ScreenPosition.w, 0, 0), _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1);
             float _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2;
             Unity_Comparison_LessOrEqual_float(_Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1, _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1, _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2);
-            float4 Color_66d0ccd319dc4f40b6ab20b1c18aa2d5 = IsGammaSpace() ? float4(0, 0.344873, 1, 0) : float4(SRGBToLinear(float3(0, 0.344873, 1)), 0);
+            float4 Color_66d0ccd319dc4f40b6ab20b1c18aa2d5 = IsGammaSpace() ? float4(0, 0.7933049, 1, 0) : float4(SRGBToLinear(float3(0, 0.7933049, 1)), 0);
             float4 _Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3;
             Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, float4(0, 0, 0, 0), _Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3);
-            float _FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3;
-            Unity_FresnelEffect_float(IN.WorldSpaceNormal, IN.WorldSpaceViewDirection, 1, _FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3);
-            float _Property_f81f91a57e2f42168cd59b77b2979992_Out_0 = _smooth;
-            float _Add_f77ad601777a45ab8da00a2cfb67187a_Out_2;
-            Unity_Add_float(_FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3, _Property_f81f91a57e2f42168cd59b77b2979992_Out_0, _Add_f77ad601777a45ab8da00a2cfb67187a_Out_2);
-            float _Property_b4eaffa56a3948eda490ed0234f764da_Out_0 = _pow;
-            float _Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2;
-            Unity_Power_float(_Add_f77ad601777a45ab8da00a2cfb67187a_Out_2, _Property_b4eaffa56a3948eda490ed0234f764da_Out_0, _Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2);
-            float4 _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2;
-            Unity_Multiply_float4_float4(Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, (_Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2.xxxx), _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2);
             float4 _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3;
-            Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, float4(0, 0, 0, 0), _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2, _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3);
-            float _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3;
-            Unity_FresnelEffect_float(IN.WorldSpaceNormal, IN.WorldSpaceViewDirection, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3);
-            float _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
-            Unity_Branch_float(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3, _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3);
+            Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, float4(0, 0, 0, 0), Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3);
             surface.BaseColor = (_Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3.xyz);
             surface.NormalTS = IN.TangentSpaceNormal;
             surface.Emission = (_Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3.xyz);
             surface.Metallic = 0;
             surface.Smoothness = 0.5;
             surface.Occlusion = 1;
-            surface.Alpha = _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
+            surface.Alpha = 1;
             return surface;
         }
         
@@ -966,16 +879,11 @@ Shader "lineThroughWall"
         
             
         
-            // must use interpolated tangent, bitangent and normal before they are normalized in the pixel shader.
-            float3 unnormalizedNormalWS = input.normalWS;
-            const float renormFactor = 1.0 / length(unnormalizedNormalWS);
         
         
-            output.WorldSpaceNormal = renormFactor * input.normalWS.xyz;      // we want a unit length Normal Vector node in shader graph
             output.TangentSpaceNormal = float3(0.0f, 0.0f, 1.0f);
         
         
-            output.WorldSpaceViewDirection = normalize(input.viewDirectionWS);
             output.WorldSpacePosition = input.positionWS;
             output.ViewSpacePosition = TransformWorldToView(input.positionWS);
             output.ScreenPosition = ComputeScreenPos(TransformWorldToHClip(input.positionWS), _ProjectionParams.x);
@@ -1201,9 +1109,7 @@ Shader "lineThroughWall"
         };
         struct SurfaceDescriptionInputs
         {
-             float3 WorldSpaceNormal;
              float3 TangentSpaceNormal;
-             float3 WorldSpaceViewDirection;
              float3 ViewSpacePosition;
              float3 WorldSpacePosition;
              float4 ScreenPosition;
@@ -1361,31 +1267,6 @@ Shader "lineThroughWall"
             Out = Predicate ? True : False;
         }
         
-        void Unity_FresnelEffect_float(float3 Normal, float3 ViewDir, float Power, out float Out)
-        {
-            Out = pow((1.0 - saturate(dot(normalize(Normal), normalize(ViewDir)))), Power);
-        }
-        
-        void Unity_Add_float(float A, float B, out float Out)
-        {
-            Out = A + B;
-        }
-        
-        void Unity_Power_float(float A, float B, out float Out)
-        {
-            Out = pow(A, B);
-        }
-        
-        void Unity_Multiply_float4_float4(float4 A, float4 B, out float4 Out)
-        {
-            Out = A * B;
-        }
-        
-        void Unity_Branch_float(float Predicate, float True, float False, out float Out)
-        {
-            Out = Predicate ? True : False;
-        }
-        
         // Custom interpolators pre vertex
         /* WARNING: $splice Could not find named fragment 'CustomInterpolatorPreVertex' */
         
@@ -1440,32 +1321,18 @@ Shader "lineThroughWall"
             Unity_SceneDepth_Eye_float(float4(IN.ScreenPosition.xy / IN.ScreenPosition.w, 0, 0), _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1);
             float _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2;
             Unity_Comparison_LessOrEqual_float(_Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1, _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1, _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2);
-            float4 Color_66d0ccd319dc4f40b6ab20b1c18aa2d5 = IsGammaSpace() ? float4(0, 0.344873, 1, 0) : float4(SRGBToLinear(float3(0, 0.344873, 1)), 0);
+            float4 Color_66d0ccd319dc4f40b6ab20b1c18aa2d5 = IsGammaSpace() ? float4(0, 0.7933049, 1, 0) : float4(SRGBToLinear(float3(0, 0.7933049, 1)), 0);
             float4 _Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3;
             Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, float4(0, 0, 0, 0), _Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3);
-            float _FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3;
-            Unity_FresnelEffect_float(IN.WorldSpaceNormal, IN.WorldSpaceViewDirection, 1, _FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3);
-            float _Property_f81f91a57e2f42168cd59b77b2979992_Out_0 = _smooth;
-            float _Add_f77ad601777a45ab8da00a2cfb67187a_Out_2;
-            Unity_Add_float(_FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3, _Property_f81f91a57e2f42168cd59b77b2979992_Out_0, _Add_f77ad601777a45ab8da00a2cfb67187a_Out_2);
-            float _Property_b4eaffa56a3948eda490ed0234f764da_Out_0 = _pow;
-            float _Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2;
-            Unity_Power_float(_Add_f77ad601777a45ab8da00a2cfb67187a_Out_2, _Property_b4eaffa56a3948eda490ed0234f764da_Out_0, _Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2);
-            float4 _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2;
-            Unity_Multiply_float4_float4(Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, (_Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2.xxxx), _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2);
             float4 _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3;
-            Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, float4(0, 0, 0, 0), _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2, _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3);
-            float _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3;
-            Unity_FresnelEffect_float(IN.WorldSpaceNormal, IN.WorldSpaceViewDirection, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3);
-            float _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
-            Unity_Branch_float(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3, _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3);
+            Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, float4(0, 0, 0, 0), Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3);
             surface.BaseColor = (_Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3.xyz);
             surface.NormalTS = IN.TangentSpaceNormal;
             surface.Emission = (_Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3.xyz);
             surface.Metallic = 0;
             surface.Smoothness = 0.5;
             surface.Occlusion = 1;
-            surface.Alpha = _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
+            surface.Alpha = 1;
             return surface;
         }
         
@@ -1490,16 +1357,11 @@ Shader "lineThroughWall"
         
             
         
-            // must use interpolated tangent, bitangent and normal before they are normalized in the pixel shader.
-            float3 unnormalizedNormalWS = input.normalWS;
-            const float renormFactor = 1.0 / length(unnormalizedNormalWS);
         
         
-            output.WorldSpaceNormal = renormFactor * input.normalWS.xyz;      // we want a unit length Normal Vector node in shader graph
             output.TangentSpaceNormal = float3(0.0f, 0.0f, 1.0f);
         
         
-            output.WorldSpaceViewDirection = normalize(input.viewDirectionWS);
             output.WorldSpacePosition = input.positionWS;
             output.ViewSpacePosition = TransformWorldToView(input.positionWS);
             output.ScreenPosition = ComputeScreenPos(TransformWorldToHClip(input.positionWS), _ProjectionParams.x);
@@ -1631,15 +1493,11 @@ Shader "lineThroughWall"
         #define _NORMAL_DROPOFF_TS 1
         #define ATTRIBUTES_NEED_NORMAL
         #define ATTRIBUTES_NEED_TANGENT
-        #define VARYINGS_NEED_POSITION_WS
-        #define VARYINGS_NEED_NORMAL_WS
-        #define VARYINGS_NEED_VIEWDIRECTION_WS
         #define FEATURES_GRAPH_VERTEX
         /* WARNING: $splice Could not find named fragment 'PassInstancing' */
         #define SHADERPASS SHADERPASS_SHADOWCASTER
         #define BUILTIN_TARGET_API 1
         #define _BUILTIN_SURFACE_TYPE_TRANSPARENT 1
-        #define REQUIRE_DEPTH_TEXTURE
         /* WARNING: $splice Could not find named fragment 'DotsInstancingVars' */
         #ifdef _BUILTIN_SURFACE_TYPE_TRANSPARENT
         #define _SURFACE_TYPE_TRANSPARENT _BUILTIN_SURFACE_TYPE_TRANSPARENT
@@ -1685,9 +1543,6 @@ Shader "lineThroughWall"
         struct Varyings
         {
              float4 positionCS : SV_POSITION;
-             float3 positionWS;
-             float3 normalWS;
-             float3 viewDirectionWS;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : CUSTOM_INSTANCE_ID;
             #endif
@@ -1703,11 +1558,6 @@ Shader "lineThroughWall"
         };
         struct SurfaceDescriptionInputs
         {
-             float3 WorldSpaceNormal;
-             float3 WorldSpaceViewDirection;
-             float3 ViewSpacePosition;
-             float3 WorldSpacePosition;
-             float4 ScreenPosition;
         };
         struct VertexDescriptionInputs
         {
@@ -1718,9 +1568,6 @@ Shader "lineThroughWall"
         struct PackedVaryings
         {
              float4 positionCS : SV_POSITION;
-             float3 positionWS : INTERP0;
-             float3 normalWS : INTERP1;
-             float3 viewDirectionWS : INTERP2;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : CUSTOM_INSTANCE_ID;
             #endif
@@ -1740,9 +1587,6 @@ Shader "lineThroughWall"
             PackedVaryings output;
             ZERO_INITIALIZE(PackedVaryings, output);
             output.positionCS = input.positionCS;
-            output.positionWS.xyz = input.positionWS;
-            output.normalWS.xyz = input.normalWS;
-            output.viewDirectionWS.xyz = input.viewDirectionWS;
             #if UNITY_ANY_INSTANCING_ENABLED
             output.instanceID = input.instanceID;
             #endif
@@ -1762,9 +1606,6 @@ Shader "lineThroughWall"
         {
             Varyings output;
             output.positionCS = input.positionCS;
-            output.positionWS = input.positionWS.xyz;
-            output.normalWS = input.normalWS.xyz;
-            output.viewDirectionWS = input.viewDirectionWS.xyz;
             #if UNITY_ANY_INSTANCING_ENABLED
             output.instanceID = input.instanceID;
             #endif
@@ -1807,38 +1648,7 @@ Shader "lineThroughWall"
         // GraphIncludes: <None>
         
         // Graph Functions
-        
-        void Unity_Negate_float(float In, out float Out)
-        {
-            Out = -1 * In;
-        }
-        
-        void Unity_SceneDepth_Eye_float(float4 UV, out float Out)
-        {
-            if (unity_OrthoParams.w == 1.0)
-            {
-                Out = LinearEyeDepth(ComputeWorldSpacePosition(UV.xy, SHADERGRAPH_SAMPLE_SCENE_DEPTH(UV.xy), UNITY_MATRIX_I_VP), UNITY_MATRIX_V);
-            }
-            else
-            {
-                Out = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH(UV.xy), _ZBufferParams);
-            }
-        }
-        
-        void Unity_Comparison_LessOrEqual_float(float A, float B, out float Out)
-        {
-            Out = A <= B ? 1 : 0;
-        }
-        
-        void Unity_FresnelEffect_float(float3 Normal, float3 ViewDir, float Power, out float Out)
-        {
-            Out = pow((1.0 - saturate(dot(normalize(Normal), normalize(ViewDir)))), Power);
-        }
-        
-        void Unity_Branch_float(float Predicate, float True, float False, out float Out)
-        {
-            Out = Predicate ? True : False;
-        }
+        // GraphFunctions: <None>
         
         // Custom interpolators pre vertex
         /* WARNING: $splice Could not find named fragment 'CustomInterpolatorPreVertex' */
@@ -1878,21 +1688,7 @@ Shader "lineThroughWall"
         SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
         {
             SurfaceDescription surface = (SurfaceDescription)0;
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_R_1 = IN.ViewSpacePosition[0];
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_G_2 = IN.ViewSpacePosition[1];
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_B_3 = IN.ViewSpacePosition[2];
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_A_4 = 0;
-            float _Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1;
-            Unity_Negate_float(_Split_0f4dd6526382438aaa64a72b93a544bd_B_3, _Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1);
-            float _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1;
-            Unity_SceneDepth_Eye_float(float4(IN.ScreenPosition.xy / IN.ScreenPosition.w, 0, 0), _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1);
-            float _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2;
-            Unity_Comparison_LessOrEqual_float(_Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1, _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1, _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2);
-            float _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3;
-            Unity_FresnelEffect_float(IN.WorldSpaceNormal, IN.WorldSpaceViewDirection, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3);
-            float _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
-            Unity_Branch_float(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3, _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3);
-            surface.Alpha = _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
+            surface.Alpha = 1;
             return surface;
         }
         
@@ -1917,18 +1713,10 @@ Shader "lineThroughWall"
         
             
         
-            // must use interpolated tangent, bitangent and normal before they are normalized in the pixel shader.
-            float3 unnormalizedNormalWS = input.normalWS;
-            const float renormFactor = 1.0 / length(unnormalizedNormalWS);
         
         
-            output.WorldSpaceNormal = renormFactor * input.normalWS.xyz;      // we want a unit length Normal Vector node in shader graph
         
         
-            output.WorldSpaceViewDirection = normalize(input.viewDirectionWS);
-            output.WorldSpacePosition = input.positionWS;
-            output.ViewSpacePosition = TransformWorldToView(input.positionWS);
-            output.ScreenPosition = ComputeScreenPos(TransformWorldToHClip(input.positionWS), _ProjectionParams.x);
         #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
         #define BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN output.FaceSign =                    IS_FRONT_VFACE(input.cullFace, true, false);
         #else
@@ -1954,9 +1742,6 @@ Shader "lineThroughWall"
         void VaryingsToSurfaceVertex(Varyings varyings, inout v2f_surf result)
         {
             result.pos = varyings.positionCS;
-            result.worldPos = varyings.positionWS;
-            result.worldNormal = varyings.normalWS;
-            result.viewDir = varyings.viewDirectionWS;
             // World Tangent isn't an available input on v2f_surf
         
         
@@ -1979,8 +1764,6 @@ Shader "lineThroughWall"
         void SurfaceVertexToVaryings(v2f_surf surfVertex, inout Varyings result)
         {
             result.positionCS = surfVertex.pos;
-            result.positionWS = surfVertex.worldPos;
-            result.normalWS = surfVertex.worldNormal;
             // viewDirectionWS is never filled out in the legacy pass' function. Always use the value computed by SRP
             // World Tangent isn't an available input on v2f_surf
         
@@ -2048,8 +1831,6 @@ Shader "lineThroughWall"
         #define ATTRIBUTES_NEED_TEXCOORD1
         #define ATTRIBUTES_NEED_TEXCOORD2
         #define VARYINGS_NEED_POSITION_WS
-        #define VARYINGS_NEED_NORMAL_WS
-        #define VARYINGS_NEED_VIEWDIRECTION_WS
         #define FEATURES_GRAPH_VERTEX
         /* WARNING: $splice Could not find named fragment 'PassInstancing' */
         #define SHADERPASS SHADERPASS_META
@@ -2104,8 +1885,6 @@ Shader "lineThroughWall"
         {
              float4 positionCS : SV_POSITION;
              float3 positionWS;
-             float3 normalWS;
-             float3 viewDirectionWS;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : CUSTOM_INSTANCE_ID;
             #endif
@@ -2121,8 +1900,6 @@ Shader "lineThroughWall"
         };
         struct SurfaceDescriptionInputs
         {
-             float3 WorldSpaceNormal;
-             float3 WorldSpaceViewDirection;
              float3 ViewSpacePosition;
              float3 WorldSpacePosition;
              float4 ScreenPosition;
@@ -2137,8 +1914,6 @@ Shader "lineThroughWall"
         {
              float4 positionCS : SV_POSITION;
              float3 positionWS : INTERP0;
-             float3 normalWS : INTERP1;
-             float3 viewDirectionWS : INTERP2;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : CUSTOM_INSTANCE_ID;
             #endif
@@ -2159,8 +1934,6 @@ Shader "lineThroughWall"
             ZERO_INITIALIZE(PackedVaryings, output);
             output.positionCS = input.positionCS;
             output.positionWS.xyz = input.positionWS;
-            output.normalWS.xyz = input.normalWS;
-            output.viewDirectionWS.xyz = input.viewDirectionWS;
             #if UNITY_ANY_INSTANCING_ENABLED
             output.instanceID = input.instanceID;
             #endif
@@ -2181,8 +1954,6 @@ Shader "lineThroughWall"
             Varyings output;
             output.positionCS = input.positionCS;
             output.positionWS = input.positionWS.xyz;
-            output.normalWS = input.normalWS.xyz;
-            output.viewDirectionWS = input.viewDirectionWS.xyz;
             #if UNITY_ANY_INSTANCING_ENABLED
             output.instanceID = input.instanceID;
             #endif
@@ -2253,31 +2024,6 @@ Shader "lineThroughWall"
             Out = Predicate ? True : False;
         }
         
-        void Unity_FresnelEffect_float(float3 Normal, float3 ViewDir, float Power, out float Out)
-        {
-            Out = pow((1.0 - saturate(dot(normalize(Normal), normalize(ViewDir)))), Power);
-        }
-        
-        void Unity_Add_float(float A, float B, out float Out)
-        {
-            Out = A + B;
-        }
-        
-        void Unity_Power_float(float A, float B, out float Out)
-        {
-            Out = pow(A, B);
-        }
-        
-        void Unity_Multiply_float4_float4(float4 A, float4 B, out float4 Out)
-        {
-            Out = A * B;
-        }
-        
-        void Unity_Branch_float(float Predicate, float True, float False, out float Out)
-        {
-            Out = Predicate ? True : False;
-        }
-        
         // Custom interpolators pre vertex
         /* WARNING: $splice Could not find named fragment 'CustomInterpolatorPreVertex' */
         
@@ -2328,28 +2074,14 @@ Shader "lineThroughWall"
             Unity_SceneDepth_Eye_float(float4(IN.ScreenPosition.xy / IN.ScreenPosition.w, 0, 0), _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1);
             float _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2;
             Unity_Comparison_LessOrEqual_float(_Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1, _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1, _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2);
-            float4 Color_66d0ccd319dc4f40b6ab20b1c18aa2d5 = IsGammaSpace() ? float4(0, 0.344873, 1, 0) : float4(SRGBToLinear(float3(0, 0.344873, 1)), 0);
+            float4 Color_66d0ccd319dc4f40b6ab20b1c18aa2d5 = IsGammaSpace() ? float4(0, 0.7933049, 1, 0) : float4(SRGBToLinear(float3(0, 0.7933049, 1)), 0);
             float4 _Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3;
             Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, float4(0, 0, 0, 0), _Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3);
-            float _FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3;
-            Unity_FresnelEffect_float(IN.WorldSpaceNormal, IN.WorldSpaceViewDirection, 1, _FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3);
-            float _Property_f81f91a57e2f42168cd59b77b2979992_Out_0 = _smooth;
-            float _Add_f77ad601777a45ab8da00a2cfb67187a_Out_2;
-            Unity_Add_float(_FresnelEffect_f0297d5e95314ba7ad9271df0333098e_Out_3, _Property_f81f91a57e2f42168cd59b77b2979992_Out_0, _Add_f77ad601777a45ab8da00a2cfb67187a_Out_2);
-            float _Property_b4eaffa56a3948eda490ed0234f764da_Out_0 = _pow;
-            float _Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2;
-            Unity_Power_float(_Add_f77ad601777a45ab8da00a2cfb67187a_Out_2, _Property_b4eaffa56a3948eda490ed0234f764da_Out_0, _Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2);
-            float4 _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2;
-            Unity_Multiply_float4_float4(Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, (_Power_5b4455e338b94ecb86a590d53c4b3bb4_Out_2.xxxx), _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2);
             float4 _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3;
-            Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, float4(0, 0, 0, 0), _Multiply_a76c1244e8624538b3e2a4626fe0eb4d_Out_2, _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3);
-            float _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3;
-            Unity_FresnelEffect_float(IN.WorldSpaceNormal, IN.WorldSpaceViewDirection, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3);
-            float _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
-            Unity_Branch_float(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3, _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3);
+            Unity_Branch_float4(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, float4(0, 0, 0, 0), Color_66d0ccd319dc4f40b6ab20b1c18aa2d5, _Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3);
             surface.BaseColor = (_Branch_d9aac1b4fe6a47c7be1b666ee9c2269f_Out_3.xyz);
             surface.Emission = (_Branch_fcb5e85ce03248db8bb2e96cef628500_Out_3.xyz);
-            surface.Alpha = _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
+            surface.Alpha = 1;
             return surface;
         }
         
@@ -2374,15 +2106,10 @@ Shader "lineThroughWall"
         
             
         
-            // must use interpolated tangent, bitangent and normal before they are normalized in the pixel shader.
-            float3 unnormalizedNormalWS = input.normalWS;
-            const float renormFactor = 1.0 / length(unnormalizedNormalWS);
         
         
-            output.WorldSpaceNormal = renormFactor * input.normalWS.xyz;      // we want a unit length Normal Vector node in shader graph
         
         
-            output.WorldSpaceViewDirection = normalize(input.viewDirectionWS);
             output.WorldSpacePosition = input.positionWS;
             output.ViewSpacePosition = TransformWorldToView(input.positionWS);
             output.ScreenPosition = ComputeScreenPos(TransformWorldToHClip(input.positionWS), _ProjectionParams.x);
@@ -2414,8 +2141,6 @@ Shader "lineThroughWall"
         {
             result.pos = varyings.positionCS;
             result.worldPos = varyings.positionWS;
-            result.worldNormal = varyings.normalWS;
-            result.viewDir = varyings.viewDirectionWS;
             // World Tangent isn't an available input on v2f_surf
         
         
@@ -2439,7 +2164,6 @@ Shader "lineThroughWall"
         {
             result.positionCS = surfVertex.pos;
             result.positionWS = surfVertex.worldPos;
-            result.normalWS = surfVertex.worldNormal;
             // viewDirectionWS is never filled out in the legacy pass' function. Always use the value computed by SRP
             // World Tangent isn't an available input on v2f_surf
         
@@ -2505,16 +2229,12 @@ Shader "lineThroughWall"
         #define _NORMAL_DROPOFF_TS 1
         #define ATTRIBUTES_NEED_NORMAL
         #define ATTRIBUTES_NEED_TANGENT
-        #define VARYINGS_NEED_POSITION_WS
-        #define VARYINGS_NEED_NORMAL_WS
-        #define VARYINGS_NEED_VIEWDIRECTION_WS
         #define FEATURES_GRAPH_VERTEX
         /* WARNING: $splice Could not find named fragment 'PassInstancing' */
         #define SHADERPASS SceneSelectionPass
         #define BUILTIN_TARGET_API 1
         #define SCENESELECTIONPASS 1
         #define _BUILTIN_SURFACE_TYPE_TRANSPARENT 1
-        #define REQUIRE_DEPTH_TEXTURE
         /* WARNING: $splice Could not find named fragment 'DotsInstancingVars' */
         #ifdef _BUILTIN_SURFACE_TYPE_TRANSPARENT
         #define _SURFACE_TYPE_TRANSPARENT _BUILTIN_SURFACE_TYPE_TRANSPARENT
@@ -2560,9 +2280,6 @@ Shader "lineThroughWall"
         struct Varyings
         {
              float4 positionCS : SV_POSITION;
-             float3 positionWS;
-             float3 normalWS;
-             float3 viewDirectionWS;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : CUSTOM_INSTANCE_ID;
             #endif
@@ -2578,11 +2295,6 @@ Shader "lineThroughWall"
         };
         struct SurfaceDescriptionInputs
         {
-             float3 WorldSpaceNormal;
-             float3 WorldSpaceViewDirection;
-             float3 ViewSpacePosition;
-             float3 WorldSpacePosition;
-             float4 ScreenPosition;
         };
         struct VertexDescriptionInputs
         {
@@ -2593,9 +2305,6 @@ Shader "lineThroughWall"
         struct PackedVaryings
         {
              float4 positionCS : SV_POSITION;
-             float3 positionWS : INTERP0;
-             float3 normalWS : INTERP1;
-             float3 viewDirectionWS : INTERP2;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : CUSTOM_INSTANCE_ID;
             #endif
@@ -2615,9 +2324,6 @@ Shader "lineThroughWall"
             PackedVaryings output;
             ZERO_INITIALIZE(PackedVaryings, output);
             output.positionCS = input.positionCS;
-            output.positionWS.xyz = input.positionWS;
-            output.normalWS.xyz = input.normalWS;
-            output.viewDirectionWS.xyz = input.viewDirectionWS;
             #if UNITY_ANY_INSTANCING_ENABLED
             output.instanceID = input.instanceID;
             #endif
@@ -2637,9 +2343,6 @@ Shader "lineThroughWall"
         {
             Varyings output;
             output.positionCS = input.positionCS;
-            output.positionWS = input.positionWS.xyz;
-            output.normalWS = input.normalWS.xyz;
-            output.viewDirectionWS = input.viewDirectionWS.xyz;
             #if UNITY_ANY_INSTANCING_ENABLED
             output.instanceID = input.instanceID;
             #endif
@@ -2682,38 +2385,7 @@ Shader "lineThroughWall"
         // GraphIncludes: <None>
         
         // Graph Functions
-        
-        void Unity_Negate_float(float In, out float Out)
-        {
-            Out = -1 * In;
-        }
-        
-        void Unity_SceneDepth_Eye_float(float4 UV, out float Out)
-        {
-            if (unity_OrthoParams.w == 1.0)
-            {
-                Out = LinearEyeDepth(ComputeWorldSpacePosition(UV.xy, SHADERGRAPH_SAMPLE_SCENE_DEPTH(UV.xy), UNITY_MATRIX_I_VP), UNITY_MATRIX_V);
-            }
-            else
-            {
-                Out = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH(UV.xy), _ZBufferParams);
-            }
-        }
-        
-        void Unity_Comparison_LessOrEqual_float(float A, float B, out float Out)
-        {
-            Out = A <= B ? 1 : 0;
-        }
-        
-        void Unity_FresnelEffect_float(float3 Normal, float3 ViewDir, float Power, out float Out)
-        {
-            Out = pow((1.0 - saturate(dot(normalize(Normal), normalize(ViewDir)))), Power);
-        }
-        
-        void Unity_Branch_float(float Predicate, float True, float False, out float Out)
-        {
-            Out = Predicate ? True : False;
-        }
+        // GraphFunctions: <None>
         
         // Custom interpolators pre vertex
         /* WARNING: $splice Could not find named fragment 'CustomInterpolatorPreVertex' */
@@ -2753,21 +2425,7 @@ Shader "lineThroughWall"
         SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
         {
             SurfaceDescription surface = (SurfaceDescription)0;
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_R_1 = IN.ViewSpacePosition[0];
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_G_2 = IN.ViewSpacePosition[1];
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_B_3 = IN.ViewSpacePosition[2];
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_A_4 = 0;
-            float _Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1;
-            Unity_Negate_float(_Split_0f4dd6526382438aaa64a72b93a544bd_B_3, _Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1);
-            float _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1;
-            Unity_SceneDepth_Eye_float(float4(IN.ScreenPosition.xy / IN.ScreenPosition.w, 0, 0), _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1);
-            float _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2;
-            Unity_Comparison_LessOrEqual_float(_Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1, _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1, _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2);
-            float _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3;
-            Unity_FresnelEffect_float(IN.WorldSpaceNormal, IN.WorldSpaceViewDirection, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3);
-            float _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
-            Unity_Branch_float(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3, _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3);
-            surface.Alpha = _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
+            surface.Alpha = 1;
             return surface;
         }
         
@@ -2792,18 +2450,10 @@ Shader "lineThroughWall"
         
             
         
-            // must use interpolated tangent, bitangent and normal before they are normalized in the pixel shader.
-            float3 unnormalizedNormalWS = input.normalWS;
-            const float renormFactor = 1.0 / length(unnormalizedNormalWS);
         
         
-            output.WorldSpaceNormal = renormFactor * input.normalWS.xyz;      // we want a unit length Normal Vector node in shader graph
         
         
-            output.WorldSpaceViewDirection = normalize(input.viewDirectionWS);
-            output.WorldSpacePosition = input.positionWS;
-            output.ViewSpacePosition = TransformWorldToView(input.positionWS);
-            output.ScreenPosition = ComputeScreenPos(TransformWorldToHClip(input.positionWS), _ProjectionParams.x);
         #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
         #define BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN output.FaceSign =                    IS_FRONT_VFACE(input.cullFace, true, false);
         #else
@@ -2829,9 +2479,6 @@ Shader "lineThroughWall"
         void VaryingsToSurfaceVertex(Varyings varyings, inout v2f_surf result)
         {
             result.pos = varyings.positionCS;
-            result.worldPos = varyings.positionWS;
-            result.worldNormal = varyings.normalWS;
-            result.viewDir = varyings.viewDirectionWS;
             // World Tangent isn't an available input on v2f_surf
         
         
@@ -2854,8 +2501,6 @@ Shader "lineThroughWall"
         void SurfaceVertexToVaryings(v2f_surf surfVertex, inout Varyings result)
         {
             result.positionCS = surfVertex.pos;
-            result.positionWS = surfVertex.worldPos;
-            result.normalWS = surfVertex.worldNormal;
             // viewDirectionWS is never filled out in the legacy pass' function. Always use the value computed by SRP
             // World Tangent isn't an available input on v2f_surf
         
@@ -2921,16 +2566,12 @@ Shader "lineThroughWall"
         #define _NORMAL_DROPOFF_TS 1
         #define ATTRIBUTES_NEED_NORMAL
         #define ATTRIBUTES_NEED_TANGENT
-        #define VARYINGS_NEED_POSITION_WS
-        #define VARYINGS_NEED_NORMAL_WS
-        #define VARYINGS_NEED_VIEWDIRECTION_WS
         #define FEATURES_GRAPH_VERTEX
         /* WARNING: $splice Could not find named fragment 'PassInstancing' */
         #define SHADERPASS ScenePickingPass
         #define BUILTIN_TARGET_API 1
         #define SCENEPICKINGPASS 1
         #define _BUILTIN_SURFACE_TYPE_TRANSPARENT 1
-        #define REQUIRE_DEPTH_TEXTURE
         /* WARNING: $splice Could not find named fragment 'DotsInstancingVars' */
         #ifdef _BUILTIN_SURFACE_TYPE_TRANSPARENT
         #define _SURFACE_TYPE_TRANSPARENT _BUILTIN_SURFACE_TYPE_TRANSPARENT
@@ -2976,9 +2617,6 @@ Shader "lineThroughWall"
         struct Varyings
         {
              float4 positionCS : SV_POSITION;
-             float3 positionWS;
-             float3 normalWS;
-             float3 viewDirectionWS;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : CUSTOM_INSTANCE_ID;
             #endif
@@ -2994,11 +2632,6 @@ Shader "lineThroughWall"
         };
         struct SurfaceDescriptionInputs
         {
-             float3 WorldSpaceNormal;
-             float3 WorldSpaceViewDirection;
-             float3 ViewSpacePosition;
-             float3 WorldSpacePosition;
-             float4 ScreenPosition;
         };
         struct VertexDescriptionInputs
         {
@@ -3009,9 +2642,6 @@ Shader "lineThroughWall"
         struct PackedVaryings
         {
              float4 positionCS : SV_POSITION;
-             float3 positionWS : INTERP0;
-             float3 normalWS : INTERP1;
-             float3 viewDirectionWS : INTERP2;
             #if UNITY_ANY_INSTANCING_ENABLED
              uint instanceID : CUSTOM_INSTANCE_ID;
             #endif
@@ -3031,9 +2661,6 @@ Shader "lineThroughWall"
             PackedVaryings output;
             ZERO_INITIALIZE(PackedVaryings, output);
             output.positionCS = input.positionCS;
-            output.positionWS.xyz = input.positionWS;
-            output.normalWS.xyz = input.normalWS;
-            output.viewDirectionWS.xyz = input.viewDirectionWS;
             #if UNITY_ANY_INSTANCING_ENABLED
             output.instanceID = input.instanceID;
             #endif
@@ -3053,9 +2680,6 @@ Shader "lineThroughWall"
         {
             Varyings output;
             output.positionCS = input.positionCS;
-            output.positionWS = input.positionWS.xyz;
-            output.normalWS = input.normalWS.xyz;
-            output.viewDirectionWS = input.viewDirectionWS.xyz;
             #if UNITY_ANY_INSTANCING_ENABLED
             output.instanceID = input.instanceID;
             #endif
@@ -3098,38 +2722,7 @@ Shader "lineThroughWall"
         // GraphIncludes: <None>
         
         // Graph Functions
-        
-        void Unity_Negate_float(float In, out float Out)
-        {
-            Out = -1 * In;
-        }
-        
-        void Unity_SceneDepth_Eye_float(float4 UV, out float Out)
-        {
-            if (unity_OrthoParams.w == 1.0)
-            {
-                Out = LinearEyeDepth(ComputeWorldSpacePosition(UV.xy, SHADERGRAPH_SAMPLE_SCENE_DEPTH(UV.xy), UNITY_MATRIX_I_VP), UNITY_MATRIX_V);
-            }
-            else
-            {
-                Out = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH(UV.xy), _ZBufferParams);
-            }
-        }
-        
-        void Unity_Comparison_LessOrEqual_float(float A, float B, out float Out)
-        {
-            Out = A <= B ? 1 : 0;
-        }
-        
-        void Unity_FresnelEffect_float(float3 Normal, float3 ViewDir, float Power, out float Out)
-        {
-            Out = pow((1.0 - saturate(dot(normalize(Normal), normalize(ViewDir)))), Power);
-        }
-        
-        void Unity_Branch_float(float Predicate, float True, float False, out float Out)
-        {
-            Out = Predicate ? True : False;
-        }
+        // GraphFunctions: <None>
         
         // Custom interpolators pre vertex
         /* WARNING: $splice Could not find named fragment 'CustomInterpolatorPreVertex' */
@@ -3169,21 +2762,7 @@ Shader "lineThroughWall"
         SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
         {
             SurfaceDescription surface = (SurfaceDescription)0;
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_R_1 = IN.ViewSpacePosition[0];
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_G_2 = IN.ViewSpacePosition[1];
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_B_3 = IN.ViewSpacePosition[2];
-            float _Split_0f4dd6526382438aaa64a72b93a544bd_A_4 = 0;
-            float _Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1;
-            Unity_Negate_float(_Split_0f4dd6526382438aaa64a72b93a544bd_B_3, _Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1);
-            float _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1;
-            Unity_SceneDepth_Eye_float(float4(IN.ScreenPosition.xy / IN.ScreenPosition.w, 0, 0), _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1);
-            float _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2;
-            Unity_Comparison_LessOrEqual_float(_Negate_c6e46f8805754fecba1676eaa79dffb6_Out_1, _SceneDepth_1a28d7e0826c4b299b27440a1d858087_Out_1, _Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2);
-            float _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3;
-            Unity_FresnelEffect_float(IN.WorldSpaceNormal, IN.WorldSpaceViewDirection, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3);
-            float _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
-            Unity_Branch_float(_Comparison_acb5b1da2b784c05b3b644368e725ffa_Out_2, 1, _FresnelEffect_890465830ae345eb901b85ea1521fb44_Out_3, _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3);
-            surface.Alpha = _Branch_47b4c0c98dd342e6b632758de8ee1ad7_Out_3;
+            surface.Alpha = 1;
             return surface;
         }
         
@@ -3208,18 +2787,10 @@ Shader "lineThroughWall"
         
             
         
-            // must use interpolated tangent, bitangent and normal before they are normalized in the pixel shader.
-            float3 unnormalizedNormalWS = input.normalWS;
-            const float renormFactor = 1.0 / length(unnormalizedNormalWS);
         
         
-            output.WorldSpaceNormal = renormFactor * input.normalWS.xyz;      // we want a unit length Normal Vector node in shader graph
         
         
-            output.WorldSpaceViewDirection = normalize(input.viewDirectionWS);
-            output.WorldSpacePosition = input.positionWS;
-            output.ViewSpacePosition = TransformWorldToView(input.positionWS);
-            output.ScreenPosition = ComputeScreenPos(TransformWorldToHClip(input.positionWS), _ProjectionParams.x);
         #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
         #define BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN output.FaceSign =                    IS_FRONT_VFACE(input.cullFace, true, false);
         #else
@@ -3245,9 +2816,6 @@ Shader "lineThroughWall"
         void VaryingsToSurfaceVertex(Varyings varyings, inout v2f_surf result)
         {
             result.pos = varyings.positionCS;
-            result.worldPos = varyings.positionWS;
-            result.worldNormal = varyings.normalWS;
-            result.viewDir = varyings.viewDirectionWS;
             // World Tangent isn't an available input on v2f_surf
         
         
@@ -3270,8 +2838,6 @@ Shader "lineThroughWall"
         void SurfaceVertexToVaryings(v2f_surf surfVertex, inout Varyings result)
         {
             result.positionCS = surfVertex.pos;
-            result.positionWS = surfVertex.worldPos;
-            result.normalWS = surfVertex.worldNormal;
             // viewDirectionWS is never filled out in the legacy pass' function. Always use the value computed by SRP
             // World Tangent isn't an available input on v2f_surf
         
